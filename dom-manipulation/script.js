@@ -27,6 +27,51 @@ function saveQuotes() {
   localStorage.setItem('quotes', JSON.stringify(quotes));
 }
 
+// Function to fetch quotes from a simulated server
+async function fetchQuotesFromServer() {
+  try {
+    // Simulated server endpoint (this would be replaced with actual API in production)
+    // For now, we'll simulate an async operation
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    
+    // In a real scenario, this would fetch actual quotes from your server
+    // For demonstration, we'll use mock data
+    const mockQuotes = [
+      { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Inspiration" },
+      { text: "Do what you can, with what you have, where you are.", category: "Motivation" }
+    ];
+    
+    return mockQuotes;
+  } catch (error) {
+    console.error('Error fetching quotes from server:', error);
+    return [];
+  }
+}
+
+// Function to sync quotes with server (optional enhancement)
+async function syncQuotes() {
+  const serverQuotes = await fetchQuotesFromServer();
+  if (serverQuotes.length > 0) {
+    // Merge server quotes with local quotes, avoiding duplicates
+    serverQuotes.forEach(serverQuote => {
+      const exists = quotes.some(q => q.text === serverQuote.text);
+      if (!exists) {
+        quotes.push(serverQuote);
+      }
+    });
+    saveQuotes();
+    populateCategories();
+    displayRandomQuote();
+    
+    // Notify user of updates
+    const notification = document.createElement('div');
+    notification.textContent = 'Quotes synced with server!';
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #4CAF50; color: white; padding: 15px; border-radius: 5px;';
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
+  }
+}
+
 // Function to populate categories in the dropdown
 function populateCategories() {
   const categoryFilter = document.getElementById('categoryFilter');
@@ -239,4 +284,9 @@ window.addEventListener('load', function() {
   
   // Display a random quote based on filter
   displayRandomQuote();
-});
+  
+  // Fetch quotes from server periodically (every 60 seconds)
+  syncQuotes(); // Initial sync
+  setInterval(syncQuotes, 60000); // Sync every 60 seconds
+})
+;
