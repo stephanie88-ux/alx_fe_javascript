@@ -90,3 +90,4 @@ document.getElementById('newQuote').addEventListener('click', displayRandomQuote
 
 // Display a random quote when the page loads
 window.addEventListener('load', displayRandomQuote);
+
