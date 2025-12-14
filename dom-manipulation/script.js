@@ -31,19 +31,15 @@ function saveQuotes() {
 function populateCategories() {
   const categoryFilter = document.getElementById('categoryFilter');
   
-  // Extract unique categories from quotes array
-  const categories = ['all']; // Start with 'all'
-  quotes.forEach(quote => {
-    if (quote.category && !categories.includes(quote.category)) {
-      categories.push(quote.category);
-    }
-  });
+  // Extract unique categories from quotes array using map
+  const allCategories = quotes.map(quote => quote.category);
+  const uniqueCategories = [...new Set(allCategories)];
   
-  // Clear existing options except the first one (All Categories)
+  // Clear existing options
   categoryFilter.innerHTML = '<option value="all">All Categories</option>';
   
   // Add category options dynamically
-  categories.slice(1).forEach(category => {
+  uniqueCategories.forEach(category => {
     const option = document.createElement('option');
     option.value = category;
     option.textContent = category;
