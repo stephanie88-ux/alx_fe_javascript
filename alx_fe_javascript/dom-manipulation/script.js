@@ -14,6 +14,7 @@ function showRandomQuote() {
   // Get a random index from the quotes array
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const quote = quotes[randomIndex];
+
   
   // Get the quote display element
   const quoteDisplay = document.getElementById('quoteDisplay');
