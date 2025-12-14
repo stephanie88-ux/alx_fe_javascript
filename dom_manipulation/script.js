@@ -89,4 +89,4 @@ function createAddQuoteForm() {
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 
 // Display a random quote when the page loads
-window.addEventListener('load', showRandomQuote);
+window.addEventListener('load', showRandomQuote); 
